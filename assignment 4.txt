@@ -1,9 +1,9 @@
 create table PUBLISHER(Name varchar(10),Address varchar(20),Phone varchar(20),primary key(Name));
-create table BOOK(Book_id integer,Title varchar(10),Publisher_Name varchar(10),Pub_year integer,primary key(Book_id),foreign key(Publisher_Name) references PUBLISHER(Name));
-create table BOOK_AUTHORS(Book_id integer,Author_name varchar(10),primary key(Book_id,Author_name),foreign key(Book_id) references BOOK(Book_id));
+create table BOOK(Book_id integer,Title varchar(10),Publisher_Name varchar(10),Pub_year integer,primary key(Book_id),foreign key(Publisher_Name) references PUBLISHER(Name)on delete cascade);
+create table BOOK_AUTHORS(Book_id integer,Author_name varchar(10),primary key(Book_id,Author_name),foreign key(Book_id) references BOOK(Book_id) on delete cascade);
 create table LIBRARY_BRANCH(Branch_id integer,Branch_Name varchar(20),Address varchar(20),primary key(Branch_id));
-create table BOOK_COPIES(Book_id integer,Branch_id integer,No_of_Copies integer,primary key(Book_id,Branch_id),foreign key(Book_id)references BOOK(Book_id),foreign key(Branch_id) references LIBRARY_BRANCH(Branch_id));
-create table BOOK_LENDING(Book_id integer,Branch_id integer,Card_No integer,Date_out date,Due_date date,primary key(Book_id,Branch_id),foreign key(Book_id)references BOOK(Book_id),foreign key(Branch_id) references LIBRARY_BRANCH(Branch_id));
+create table BOOK_COPIES(Book_id integer,Branch_id integer,No_of_Copies integer,primary key(Book_id,Branch_id),foreign key(Book_id)references BOOK(Book_id)on delete cascade,foreign key(Branch_id) references LIBRARY_BRANCH(Branch_id)on delete cascade);
+create table BOOK_LENDING(Book_id integer,Branch_id integer,Card_No integer,Date_out date,Due_date date,primary key(Book_id,Branch_id),foreign key(Book_id)references BOOK(Book_id)on delete cascade,foreign key(Branch_id) references LIBRARY_BRANCH(Branch_id)on delete cascade);
 
 insert into PUBLISHER values('Mcgraw','Bangalore','9696500001');
 insert into PUBLISHER values('Person','Bangalore','9595950000');  
