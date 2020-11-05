@@ -116,8 +116,8 @@ insert into BOOK_LENDING values(50,500,205,'2020-09-01','2020-09-10');
 
 ----------------------------------------------------------------------------------------------------------------------
 
-                                          
-
+                                                             Lab program 1
+                                                                 
 
 5)    retrive details of all books in the library_id,Title,name of Publisher,authors,Number of Copies in each branch
 
