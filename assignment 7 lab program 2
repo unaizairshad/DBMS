@@ -1,4 +1,5 @@
-lab program 2                                                                     19/11/20
+lab program 2                  19/11/20
+
 
 
 question 2:    find the name and numbers of all salesman who had more than one customer
@@ -20,11 +21,11 @@ question 2:    find the name and numbers of all salesman who had more than one c
     insert into CUSTOMER values(3000,'preethi','mysore',300,40);
     insert into CUSTOMER values(4000,'smitha','mangalore',400,30);
     
-    insert into ORDERS values(551,5000,'4-jan-20',1000,10);
-    insert into ORDERS values(552,2500,'5-feb-20',2000,20);
-    insert into ORDERS values(553,500,'3-mar-20',3000,30);
-    insert into ORDERS values(554,1500,'2-apr-20',4000,40);
-    insert into ORDERS values(555,2000,'3-jan-20',2000,10);
+    insert into ORDERS values(551,5000,'2020-01-04',1000,10); 
+    insert into ORDERS values(552,2500,'2020-02-5',2000,20);
+    insert into ORDERS values(553,500,'2020-03-03',3000,40);
+    insert into ORDERS values(554,1500,'2020-04-02',4000,30);
+    insert into ORDERS values(555,2000,'2020-06-03',2000,10);
 
 ---
 
@@ -36,7 +37,8 @@ question 2:    find the name and numbers of all salesman who had more than one c
 | ----------- | ----- |                                               using nested query
 | 10          | akash |
 
----
+---                                                 or   
+
 **Query #2**
 
     select salesman_id,name from SALESMAN s where 1<(select count(*) from ORDERS where s.salesman_id=ORDERS.salesman_id);
@@ -45,14 +47,173 @@ question 2:    find the name and numbers of all salesman who had more than one c
 | ----------- | ----- |                                                   using corelated nested query
 | 10          | akash |
 
----
+---                                                   or
+
 **Query #3**
 
     select s.salesman_id,s.name from SALESMAN s where s.salesman_id in (select o.salesman_id from ORDERS o where o.salesman_id=s.salesman_id group by o.salesman_id having count(*)>1);
 
 | salesman_id | name  |
-| ----------- | ----- |
+| ----------- | ----- |                                         %
 | 10          | akash |
 
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+question 1:    count the customers with grades above bangalore's average
+
+
+update CUSTOMER set grade=400 where salesman_id=10;
+update CUSTOMER set grade=300 where salesman_id=30;
+insert into CUSTOMER values(5000,'varshini','bangalore',400,50); 
+
+
+
+    create table SALESMAN(salesman_id integer primary key,name varchar(10),city varchar(10),commission integer);
+        create table CUSTOMER(customer_id integer primary key,cust_name varchar(10),city varchar(10),grade integer,salesman_id integer,foreign key(salesman_id) references SALESMAN(salesman_id)on delete cascade);
+        create table ORDERS(ord_no integer primary key,purchase_amt integer,ord_date varchar(20),customer_id integer,salesman_id integer,foreign key(customer_id) references CUSTOMER(customer_id)on delete cascade,foreign key(salesman_id) references SALESMAN(salesman_id)on delete cascade);
+        
+        insert into SALESMAN values(10,'akash','mangalore',2);
+        insert into SALESMAN values(20,'ram','bangalore',10);
+        insert into SALESMAN values(30,'raj','mangalore',5);
+        insert into SALESMAN values(40,'kiran','mysore',15);
+        insert into SALESMAN values(50,'shreya','bangalore',3);
+        
+        
+        insert into CUSTOMER values(1000,'avinash','mangalore',400,10);
+        insert into CUSTOMER values(2000,'kumar','bangalore',200,20);
+        insert into CUSTOMER values(3000,'preethi','mysore',300,40);
+        insert into CUSTOMER values(4000,'smitha','mangalore',300,30);
+        insert into CUSTOMER values(5000,'varshini','bangalore',400,50);
+        
+        insert into ORDERS values(551,5000,'2020-01-04',1000,10); 
+        insert into ORDERS values(552,2500,'2020-02-5',2000,20);
+        insert into ORDERS values(553,500,'2020-03-03',3000,40);
+        insert into ORDERS values(554,1500,'2020-04-02',4000,30);
+        insert into ORDERS values(555,2000,'2020-06-03',2000,10);
+
+---
+
+**Query #1**
+
+    select grade,count(*) from CUSTOMER group by grade having grade >(select avg(grade) from CUSTOMER where city='bangalore');
+
+| grade | count(*) |
+| ----- | -------- |
+| 400   | 2        |
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+question 3:      list all the salesman and indicate those who have and don't have customers in thier cities (use UNION operator)
+
+
+**Query #1**
+
+    select salesman_id,name from SALESMAN  where exists ( select * from SALESMAN s ,CUSTOMER c where s.salesman_id=c.salesman_id and s.city=c.city) union
+    (select salesman_id,name from SALESMAN where not exists ( select * from SALESMAN s ,CUSTOMER c where s.salesman_id=c.salesman_id and s.city=c.city) );
+    
+                                                               or
+                                                               
+      select salesman_id,name from SALESMAN S 
+  where EXISTS(select salesman_id from  CUSTOMER C 
+                where S.city=C.city and S.salesman_id=C.salesman_id)
+			UNION
+select salesman_id,name from SALESMAN S  
+  where NOT EXISTS(select salesman_id from CUSTOMER C 
+		    where S.city=C.city and S.salesman_id=C.salesman_id)
+                                                         
+                                                               
+    
+
+| salesman_id | name   |
+| ----------- | ------ |
+| 10          | akash  |
+| 20          | ram    |
+| 30          | raj    |
+| 40          | kiran  |
+| 50          | shreya |
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+question 4:      create a view that finds the salesman who has customer with the highest order of a day
+
+
+**Query #1**
+
+    create view info as 
+    select salesman_id,ord_date from ORDERS where purchase_amt in (select max(purchase_amt)from ORDERS group by ord_date);
+
+    select * from info;
+    
+
+| salesman_id | ord_date   |
+| ----------- | ---------- |
+| 10          | 2020-01-04 |
+| 20          | 2020-02-5  |
+| 40          | 2020-03-03 |
+| 30          | 2020-04-02 |
+| 10          | 2020-06-03 |
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+question 5:     Demonstrate the DELETE operation by removing salesman with id 50. All his orders must also be deleted.
+
+            delete from SALESMAN where salesman_id =50;  
+            select * from SALESMAN;
+            select * from CUSTOMER;
+            select * from ORDERS;
+
+
+---
+
+**Query #1**
+
+    delete from SALESMAN where salesman_id =50;
+
+There are no results to be displayed.
+
+---
+**Query #2**
+
+    select * from SALESMAN;
+
+| salesman_id | name  | city      | commission |
+| ----------- | ----- | --------- | ---------- |
+| 10          | akash | mangalore | 2          |
+| 20          | ram   | bangalore | 10         |
+| 30          | raj   | mangalore | 5          |
+| 40          | kiran | mysore    | 15         |
+
+---
+**Query #3**
+
+    select * from CUSTOMER;
+
+| customer_id | cust_name | city      | grade | salesman_id |
+| ----------- | --------- | --------- | ----- | ----------- |
+| 1000        | avinash   | mangalore | 100   | 10          |
+| 2000        | kumar     | udupi     | 200   | 20          |
+| 3000        | preethi   | mysore    | 300   | 40          |
+| 4000        | smitha    | mangalore | 300   | 30          |
+
+---
+**Query #4**
+
+    select * from ORDERS;
+
+| ord_no | purchase_amt | ord_date   | customer_id | salesman_id |
+| ------ | ------------ | ---------- | ----------- | ----------- |
+| 551    | 5000         | 2020-01-04 | 1000        | 10          |
+| 552    | 2500         | 2020-02-5  | 2000        | 20          |
+| 553    | 500          | 2020-03-03 | 3000        | 40          |
+| 554    | 1500         | 2020-04-02 | 4000        | 30          |
+| 555    | 2000         | 2020-06-03 | 2000        | 10          |
+
+---
+
+
 
