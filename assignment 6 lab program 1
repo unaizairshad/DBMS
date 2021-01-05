@@ -291,8 +291,8 @@ delete from BOOK where Book_id=20;
 
 
 
-    CREATE VIEW V_PUBLICATION AS select Pub_year from BOOK;
-     select Pub_year from BOOK;
+    CREATE VIEW V AS select Pub_year from BOOK;
+     select Pub_year from V;
 
 | Pub_year |
 | -------- |
