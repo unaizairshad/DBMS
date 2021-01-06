@@ -41,7 +41,7 @@ question 2:    find the name and numbers of all salesman who had more than one c
 
 **Query #2**
 
-    select salesman_id,name from SALESMAN s where 1<(select count(*) from ORDERS where s.salesman_id=ORDERS.salesman_id);
+    select salesman_id,name from SALESMAN s where 1<(select count(*) from ORDERS O where s.salesman_id=O.salesman_id);
 
 | salesman_id | name  |
 | ----------- | ----- |                                                   using corelated nested query
