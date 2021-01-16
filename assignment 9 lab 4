@@ -169,16 +169,21 @@ or
 
 **Query #2                      Compute the total number of male and female students in each semester and in each section.
         
-   select sem,sec gender,count(*) from STUDENT s, SEMSEC ss,CLASS c where s.usn=c.usn and c.ssid=ss.ssid  group by sem, sec, gender order by sem;
+   
 
-| sem | gender | count(*) |
-| --- | ------ | -------- |
-| 4   | B      | 1        |
-| 4   | C      | 1        |
-| 4   | C      | 1        |
-| 7   | A      | 1        |
-| 8   | A      | 1        |
-| 8   | C      | 1        |
+
+    select sem,sec, gender,count(*) from STUDENT s, SEMSEC ss,CLASS c where s.usn=c.usn and c.ssid=ss.ssid  group by sem, sec, gender order by sem;
+
+| sem | sec | gender | count(*) |
+| --- | --- | ------ | -------- |
+| 4   | B   | f      | 1        |
+| 4   | C   | f      | 1        |
+| 4   | C   | m      | 1        |
+| 7   | A   | m      | 1        |
+| 8   | A   | f      | 1        |
+| 8   | C   | m      | 1        |
+
+
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -234,22 +239,21 @@ If FinalIA = 12 to 16 then CAT = ‘Average’
 If FinalIA< 12 then CAT = ‘Weak’
 Give these details only for 8th semester A, B, and C section students.
 
-  
 
+    select s.usn,sname,finalia,
+            (case
+                 when ia.finalia>=17 and finalia<=20 then'outstanding'                              sir
+                 when ia.finalia>=12 and finalia<17 then 'average'
+                 when finalia<12 then 'weak'
+             end)  cat 
+             from STUDENT s, SEMSEC ss, IAMARKS ia,CLASS c where s.usn=ia.usn and s.usn=c.usn and c.ssid=ss.ssid and sem=8;
 
-    select s.usn,s.sname,s.address,s.phone,s.gender,                                                sir
-        (case
-             when ia.finalia>=17 and finalia<=20 then'outstanding'
-             when ia.finalia>=12 and finalia<17 then 'average'
-             when finalia<12 then 'weak'
-         end)  cat 
-         from STUDENT s, SEMSEC ss, IAMARKS ia,CLASS c where s.usn=ia.usn and s.usn=c.usn and c.ssid=ss.ssid and sem=8;
+| usn        | sname        | finalia | cat         |
+| ---------- | ------------ | ------- | ----------- |
+| 1bi15ec501 | asmita singh | 18      | outstanding |
+| 1bi17cv601 | rohan verma  | 13      | average     |
 
-| usn        | sname        | address                           | phone  | gender | cat         |
-| ---------- | ------------ | --------------------------------- | ------ | ------ | ----------- |
-| 1bi15ec501 | asmita singh | 261,vaibhav divya apartment,kochi | 912378 | f      | outstanding |
-| 1bi17cv601 | rohan verma  | 321,usha colony,jaipur            | 876579 | m      | average     |
-
+m/)
 
 
 or
