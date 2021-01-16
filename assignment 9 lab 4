@@ -47,6 +47,8 @@ Write SQL queries to
     insert into IAMARKS values("1bi15ec501","15ec81",56789,14,15,12,18);
     insert into IAMARKS values("1bi17cv601","17cv71",12345,15,11,10,13);
     insert into IAMARKS values("1bi17cv301","17cv51",45678,18,10,18,16);
+    insert into IAMARKS values("1bi16cs110","16cs83",34567,11,13,11,12);
+    insert into IAMARKS values("1bi16cs110","16cs87",34567,15,12,19,17);
 
 
 
@@ -84,7 +86,7 @@ Write SQL queries to
 | 1bi18cs401 | 23456 |
 | 1bi16cs110 | 34567 |
 | 1bi17cv301 | 45678 |
-| 1bi15ec501 | 56789 |
+| 1bi15ec501 | 56789 |c
 | 1bi15ec201 | 67890 |
 
     select * from COURSE;
@@ -100,23 +102,26 @@ Write SQL queries to
 | 18cs71  | artificial intelligence   | 7   | 3       |
 
 
-      select * from IAMARKS;
+    select * from IAMARKS;
 
 | usn        | subcode | ssid  | test1 | test2 | test3 | finalia |
 | ---------- | ------- | ----- | ----- | ----- | ----- | ------- |
+| 1bi18cs401 | 18cs71  | 23456 | 15    | 17    | 10    | 16      |
+| 1bi16cs110 | 16cs81  | 34567 | 19    | 14    | 13    | 15      |
 | 1bi15ec201 | 15ec61  | 67890 | 10    | 17    | 15    | 17      |
 | 1bi15ec501 | 15ec81  | 56789 | 14    | 15    | 12    | 18      |
-| 1bi16cs110 | 16cs81  | 34567 | 19    | 14    | 13    | 15      |
-| 1bi17cv301 | 17cv51  | 45678 | 18    | 10    | 18    | 16      |
 | 1bi17cv601 | 17cv71  | 12345 | 15    | 11    | 10    | 13      |
-| 1bi18cs401 | 18cs71  | 23456 | 15    | 17    | 10    | 16      |
+| 1bi17cv301 | 17cv51  | 45678 | 18    | 10    | 18    | 16      |
+| 1bi16cs110 | 16cs83  | 34567 | 11    | 13    | 11    | 12      |
+| 1bi16cs110 | 16cs87  | 34567 | 15    | 12    | 19    | 17      |
+
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 **Query #1**             List all the student details studying in fourth semester ‘C’ section.
 
-    select * from STUDENT s,SEMSEC ss,CLASS c where s.usn=c.usn and ss.ssid=c.ssid and sem=4 and sec='c';
+    select * from STUDENT s,SEMSEC ss,CLASS c, where s.usn=c.usn and ss.ssid=c.ssid and sem=4 and sec='c';
 
 or
 
@@ -154,12 +159,17 @@ or
 **Query #3**           Create a view of Test1 marks of student USN ‘1BI15CS101’ in all Courses.    
         
 
- create view v as select test1,subcode from IAMARKS where usn='1bi16cs110';
-    select * from v;
 
-| test1 | subcode |
-| ----- | ------- |
-| 19    | 16cs81  |
+    create view v as select subcode,test1 from IAMARKS where usn='1bi16cs110';
+         select * from v;
+
+| subcode | test1 |
+| ------- | ----- |
+| 16cs81  | 19    |
+| 16cs83  | 11    |                                         *****
+| 16cs87  | 15    |
+
+
 
 or
 
@@ -174,20 +184,26 @@ or
      
  -------------------------------------------------------------------------------------------------------------------------------------------------------- 
  
- **Query #4**
+ **Query #4**              
+ Calculate the FinalIA (average of best two test marks) and update the corresponding table for all students.       
 
     update IAMARKS 
     set finalia=((test1+test2+test3)-least(test1,test2,test3))/2;
           select * from IAMARKS;
 
+
 | usn        | subcode | ssid  | test1 | test2 | test3 | finalia |
 | ---------- | ------- | ----- | ----- | ----- | ----- | ------- |
+| 1bi18cs401 | 18cs71  | 23456 | 15    | 17    | 10    | 16      |
+| 1bi16cs110 | 16cs81  | 34567 | 19    | 14    | 13    | 17      |
 | 1bi15ec201 | 15ec61  | 67890 | 10    | 17    | 15    | 16      |
 | 1bi15ec501 | 15ec81  | 56789 | 14    | 15    | 12    | 15      |
-| 1bi16cs110 | 16cs81  | 34567 | 19    | 14    | 13    | 17      |
-| 1bi17cv301 | 17cv51  | 45678 | 18    | 10    | 18    | 18      |
 | 1bi17cv601 | 17cv71  | 12345 | 15    | 11    | 10    | 13      |
-| 1bi18cs401 | 18cs71  | 23456 | 15    | 17    | 10    | 16      |
+| 1bi17cv301 | 17cv51  | 45678 | 18    | 10    | 18    | 18      |
+| 1bi16cs110 | 16cs83  | 34567 | 11    | 13    | 11    | 12      |
+| 1bi16cs110 | 16cs87  | 34567 | 15    | 12    | 19    | 17      |
+
+
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 
