@@ -49,46 +49,6 @@ Write SQL queries to
     insert into IAMARKS values("1bi17cv301","17cv51",45678,18,10,18,16);
 
 
-**Schema (MySQL v5.7)**
-
-    create table STUDENT(usn varchar(10) primary key,sname varchar(20),address varchar(40),phone integer(10),gender varchar(2));
-    insert into STUDENT value("1bi15ec201","riya sharma","206,roys apartmant,delhi",654213,"f");
-    insert into STUDENT value("1bi16cs110","anup mehta","104,diva society,ankleshwar",105647,"m");
-    insert into STUDENT value("1bi17cv301","vihaan mishra","302,shiva colony,gidc",986065,"m");
-    insert into STUDENT value("1bi18cs401","pragya tiwari","132,patel nagar,bharuch",574652,"f");
-    insert into STUDENT value("1bi15ec501","asmita singh","261,vaibhav divya apartment,kochi",912378,"f");
-    insert into STUDENT value("1bi17cv601","rohan verma","321,usha colony,jaipur",876579,"m");           
-    create table SEMSEC(ssid integer(10) primary key,sem integer,sec varchar(2));
-    insert into SEMSEC values(67890,4,"B");
-    insert into SEMSEC values(56789,8,"A");
-    insert into SEMSEC values(45678,4,"C");
-    insert into SEMSEC values(34567,7,"A");
-    insert into SEMSEC values(23456,4,"C");
-    insert into SEMSEC values(12345,8,"C");                                                                         
-    create table CLASS(usn varchar(10),ssid integer(10), primary key(usn,ssid),foreign key(usn) references STUDENT(usn),
-    foreign key(ssid) references SEMSEC(ssid));
-    insert into CLASS values("1bi16cs110",34567);
-    insert into CLASS values("1bi15ec201",67890);
-    insert into CLASS values("1bi17cv601",12345);
-    insert into CLASS values("1bi15ec501",56789);
-    insert into CLASS values("1bi18cs401",23456);
-    insert into CLASS values("1bi17cv301",45678);
-    create table COURSE(subcode varchar(10) primary key,title varchar(30),sem integer,credits integer);
-    insert into COURSE values("15ec61","network theory",6,3);
-    insert into COURSE values("18cs71","artificial intelligence  ",7,3);
-    insert into COURSE values("15ec81","power electronics",8,4);
-    insert into COURSE values("17cv51","solid mechanics",5,2);
-    insert into COURSE values("16cs81","big data analytics",8,3);
-    insert into COURSE values("17cv71","hydraulics",7,4);
-    create table IAMARKS(usn varchar(10),subcode varchar(10),ssid integer(10),test1 integer,test2 integer,test3 integer,finalia integer,
-    primary key(usn,subcode,ssid),foreign key(usn)references STUDENT(usn),foreign key(subcode)references COURSE(subcode),foreign key(ssid)references SEMSEC(ssid));
-    insert into IAMARKS values("1bi18cs401","18cs71",23456,15,17,10,16);
-    insert into IAMARKS values("1bi16cs110","16cs81",34567,19,14,13,15);
-    insert into IAMARKS values("1bi15ec201","15ec61",67890,10,17,15,17);
-    insert into IAMARKS values("1bi15ec501","15ec81",56789,14,15,12,18);
-    insert into IAMARKS values("1bi17cv601","17cv71",12345,15,11,10,13);
-    insert into IAMARKS values("1bi17cv301","17cv51",45678,18,10,18,16);
-
 
 
     select * from STUDENT;
@@ -127,7 +87,9 @@ Write SQL queries to
 | 1bi15ec501 | 56789 |
 | 1bi15ec201 | 67890 |
 
-
+    select * from COURSE;
+    
+    
 | subcode | title                     | sem | credits |
 | ------- | ------------------------- | --- | ------- |
 | 15ec61  | network theory            | 6   | 3       |
@@ -138,6 +100,7 @@ Write SQL queries to
 | 18cs71  | artificial intelligence   | 7   | 3       |
 
 
+      select * from IAMARKS;
 
 | usn        | subcode | ssid  | test1 | test2 | test3 | finalia |
 | ---------- | ------- | ----- | ----- | ----- | ----- | ------- |
@@ -228,10 +191,7 @@ or
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-**Query #5**
+Query #5**
 
 Categorize students based on the following criterion:
 If FinalIA = 17 to 20 then CAT = ‘Outstanding’
@@ -253,7 +213,6 @@ Give these details only for 8th semester A, B, and C section students.
 | 1bi15ec501 | asmita singh | 18      | outstanding |
 | 1bi17cv601 | rohan verma  | 13      | average     |
 
-m/)
 
 
 or
