@@ -42,7 +42,7 @@ Write SQL queries to
   create table IAMARKS(usn varchar(10),subcode varchar(10),ssid integer(10),test1 integer,test2 integer,test3 integer,finalia integer,
     primary key(usn,subcode,ssid),foreign key(usn)references STUDENT(usn),foreign key(subcode)references COURSE(subcode),foreign key(ssid)references SEMSEC(ssid));
     insert into IAMARKS values("1bi18cs401","18cs71",23456,15,17,10,16);
-    insert into IAMARKS values("1bi16cs110","16cs81",34567,19,14,13,15);
+    insert into IAMARKS values("1bi16cs110","16cs81",34567,19,14,13,15);c
     insert into IAMARKS values("1bi15ec201","15ec61",67890,10,17,15,17);
     insert into IAMARKS values("1bi15ec501","15ec81",56789,14,15,12,18);
     insert into IAMARKS values("1bi17cv601","17cv71",12345,15,11,10,13);
