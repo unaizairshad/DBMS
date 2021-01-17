@@ -7,7 +7,7 @@ WORKS_ON(SSN, PNo, Hours)
 Write SQL queries to
 
 
-    create table DEPARTMENT(dno integer primary key ,dname varchar(20) ,mgrssn integer(10),mgrstartdate integer);
+    create table DEPARTMENT(dno integer primary key ,dname varchar(20) ,mgrssn integer(10),mgrstartdate date);
     insert into DEPARTMENT values(5,'research',111222333,2002-10-06);
     insert into DEPARTMENT values(1,'administration',555666777,2006-12-05);
     insert into DEPARTMENT values(3,'headquarter',777888999,2013-01-01);
