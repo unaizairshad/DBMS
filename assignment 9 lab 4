@@ -121,7 +121,7 @@ Write SQL queries to
 
 **Query #1**             List all the student details studying in fourth semester ‘C’ section.
 
-    select * from STUDENT s,SEMSEC ss,CLASS c, where s.usn=c.usn and ss.ssid=c.ssid and sem=4 and sec='c';
+    select * from STUDENT s,SEMSEC ss,CLASS c where s.usn=c.usn and ss.ssid=c.ssid and sem=4 and sec='c';
 
 or
 
@@ -218,8 +218,8 @@ Give these details only for 8th semester A, B, and C section students.
 
     select s.usn,sname,finalia,
             (case
-                 when ia.finalia>=17 and finalia<=20 then'outstanding'                              sir
-                 when ia.finalia>=12 and finalia<17 then 'average'
+                 when finalia>=17 and finalia<=20 then'outstanding'                              sir
+                 when finalia>=12 and finalia<17 then 'average'
                  when finalia<12 then 'weak'
              end)  cat 
              from STUDENT s, SEMSEC ss, IAMARKS ia,CLASS c where s.usn=ia.usn and s.usn=c.usn and c.ssid=ss.ssid and sem=8;
