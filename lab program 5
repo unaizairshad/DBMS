@@ -10,7 +10,7 @@ Write SQL queries to
     create table DEPARTMENT(dno integer primary key ,dname varchar(20) ,mgrssn integer(10),mgrstartdate date);
     insert into DEPARTMENT values(5,'research',111222333,'2002-10-06');
     insert into DEPARTMENT values(1,'administration',555666777,'2006-12-05');
-    insert into DEPARTMENT values(3,'headquarter',777888999,'2013-01-01)';
+    insert into DEPARTMENT values(3,'headquarter',777888999,'2013-01-01');
     insert into DEPARTMENT values(4,'accounts',222333444,'2011-04-10');
     
     create table EMPLOYEE(ssn integer(10) primary key,name varchar(20),address varchar(30),sex char,salary integer,superssn integer(10),dno integer,foreign key(dno) references DEPARTMENT(dno));
