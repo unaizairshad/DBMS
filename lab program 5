@@ -157,7 +157,12 @@ or
 **Query #4**            Retrieve the name of each employee who works on all the projects controlledby 
                         department number 5 (use NOT EXISTS operator).
 
+ select e.name from EMPLOYEE e where not exists(select pno from PROJECT p where 
+dno =5 and p.pno not in (select pno from WORKS_ON where e.ssn=ssn));
 
+| name   |
+| ------ |
+| alicia |
 
 
 
