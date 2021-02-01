@@ -298,17 +298,41 @@ There are no results to be displayed.
 4)     partition the BOOK table based on year of publication . demonstrate working with a simple query 
 
 
+    
+     create table test6 (id integer,name varchar(10),year integer,primary key(id,year));
+    alter table test6 partition by range(year)
+      (partition p0 values less than (2021),  
+      partition p1 values less than (2023));
+      
+           insert into test6 values(1,'sam',2010);
+           insert into test6 values(2,'IEEE',2019);
+           insert into test6 values(3,'IOP',2022);
+           insert into test6 values(4,'Mcgraw',2021);
+           insert into test6 values(5,'person',2018);
+    
+    
 
-    CREATE VIEW V AS select Pub_year from BOOK;
-     select Pub_year from V;
+**Query #1**
 
-| Pub_year |
-| -------- |
-| 2010     |
-| 2008     |
-| 2019     |
-| 2018     |
-| 2020     |
+    select * from test6 partition(p0);
+
+| id  | name   | year |
+| --- | ------ | ---- |
+| 1   | sam    | 2010 |
+| 2   | IEEE   | 2019 |
+| 5   | person | 2018 |
+
+---
+**Query #2**
+
+    select * from test6 partition(p1);
+
+| id  | name   | year |
+| --- | ------ | ---- |
+| 3   | IOP    | 2022 |
+| 4   | Mcgraw | 2021 |
+
+
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
